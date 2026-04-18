@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Google AI Studio App</title>
+    <script>
+      // Prevent polyfills or injected scripts from crashing if window.fetch is a getter
+      (function() {
+        try {
+          var target = window;
+          var desc = Object.getOwnPropertyDescriptor(target, 'fetch');
+          if (!desc) {
+            target = Window.prototype;
+            desc = Object.getOwnPropertyDescriptor(target, 'fetch');
+          }
+          if (desc && desc.get && desc.configurable) {
+            Object.defineProperty(window, 'fetch', {
+              value: window.fetch,
+              writable: true,
+              configurable: true,
+              enumerable: desc.enumerable
+            });
+          }
+        } catch(e) {
+          console.error('Error patching fetch getter:', e);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

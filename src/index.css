@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-mpl-bg: #050505;
+  --color-mpl-surface: #121212;
+  --color-mpl-accent: #ff0033;
+  --color-mpl-border: #222222;
+  --color-mpl-text: #ffffff;
+  --color-mpl-text-dim: #888888;
+  
+  --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+  background-color: var(--color-mpl-bg);
+  color: var(--color-mpl-text);
+}
