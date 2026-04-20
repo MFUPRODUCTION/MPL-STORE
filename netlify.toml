@@ -2,12 +2,10 @@
   command = "npm run build"
   publish = "dist"
 
-# Single Page Application redirect
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# Note: The Express backend (server.ts) will NOT run on Netlify standard hosting.
-# You will need to deploy the backend separately (e.g. Render, Railway, fly.io)
-# and proxy the API calls, or refactor to Netlify Functions.
+[template.environment]
+  NODE_VERSION = "20"
