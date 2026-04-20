@@ -4,26 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MPL STORE - Official Merchandise</title>
+  </head>
+  <body>
+    <div id="root">
+      <div style="background-color: #050505; color: white; height: 100vh; display: flex; align-items: center; justify-content: center; font-family: sans-serif;">
+        Loading MPL Store...
+      </div>
+    </div>
     <script>
-      // Prevent polyfills or injected scripts from crashing if window.fetch is a getter-only property.
+      // Final attempt at robust fetch patch
       (function() {
         try {
-          var _fetch = window.fetch;
+          var originalFetch = window.fetch;
           Object.defineProperty(window, 'fetch', {
+            value: originalFetch,
+            writable: true,
             configurable: true,
-            enumerable: true,
-            get: function() { return _fetch; },
-            set: function(v) { _fetch = v; }
+            enumerable: true
           });
         } catch (e) {
-          // If it fails, at least attempt to set it on self
-          try { self.fetch = window.fetch; } catch(i) {}
+          console.warn("Could not patch fetch:", e);
         }
       })();
     </script>
-  </head>
-  <body>
-    <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

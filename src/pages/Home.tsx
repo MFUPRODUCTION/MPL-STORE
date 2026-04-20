@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Truck, ShieldCheck } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Product, StoreSettings } from "../types";
 
 export function Home() {

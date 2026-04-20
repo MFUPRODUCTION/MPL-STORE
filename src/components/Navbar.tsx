@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingBag, LayoutDashboard, Menu, X, ShoppingCart } from "lucide-react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { cn } from "../lib/utils";
 import { StoreSettings } from "../types";
 import { useCart } from "../context/CartContext";
