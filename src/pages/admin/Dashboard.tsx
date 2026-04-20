@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Order, Product, StoreSettings } from "../../types";
 import { Trash2, LogOut, Loader2, Home as HomeIcon, Download, KeyRound } from "lucide-react";

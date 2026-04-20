@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { CheckCircle2, ChevronLeft, Trash2 } from "lucide-react";
 import { useCart } from "../context/CartContext";

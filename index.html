@@ -3,27 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <title>MPL STORE - Official Merchandise</title>
     <script>
-      // Prevent polyfills or injected scripts from crashing if window.fetch is a getter
+      // Prevent polyfills or injected scripts from crashing if window.fetch is a getter-only property.
       (function() {
         try {
-          var target = window;
-          var desc = Object.getOwnPropertyDescriptor(target, 'fetch');
-          if (!desc) {
-            target = Window.prototype;
-            desc = Object.getOwnPropertyDescriptor(target, 'fetch');
-          }
-          if (desc && desc.get && desc.configurable) {
-            Object.defineProperty(window, 'fetch', {
-              value: window.fetch,
-              writable: true,
-              configurable: true,
-              enumerable: desc.enumerable
-            });
-          }
-        } catch(e) {
-          console.error('Error patching fetch getter:', e);
+          var _fetch = window.fetch;
+          Object.defineProperty(window, 'fetch', {
+            configurable: true,
+            enumerable: true,
+            get: function() { return _fetch; },
+            set: function(v) { _fetch = v; }
+          });
+        } catch (e) {
+          // If it fails, at least attempt to set it on self
+          try { self.fetch = window.fetch; } catch(i) {}
         }
       })();
     </script>
