@@ -47,6 +47,9 @@ export function ProductDetail() {
 
   const isKaos = product.category.toUpperCase() === "KAOS";
   const isPDH = product.category.toUpperCase() === "PDH";
+  const isTotebag = product.category.toUpperCase().replace(/\s+/g, "") === "TOTEBAG";
+  const hasColorOption = isKaos || isTotebag;
+  const colorOptions = isTotebag ? ["Putih"] : ["Hitam"];
 
   const sizeOptions = [
     { label: "S", surcharge: 0 },
@@ -80,7 +83,7 @@ export function ProductDetail() {
       quantity: formData.quantity,
       size: (isKaos || isPDH) ? formData.size : undefined,
       sleeveType: isKaos ? formData.sleeveType : undefined,
-      color: isKaos ? formData.color : undefined,
+      color: hasColorOption ? (colorOptions.includes(formData.color) ? formData.color : colorOptions[0]) : undefined,
       pdhName: isPDH ? formData.pdhName : undefined,
       basePrice: product.price,
       surcharge: unitSurcharge,
@@ -117,7 +120,7 @@ export function ProductDetail() {
                  </p>
               </div>
 
-              {(isKaos || isPDH) && (
+              {(isKaos || isPDH || isTotebag) && (
                 <div className="space-y-4 pt-4 border-t border-mpl-border">
                   {isPDH && (
                     <div>
@@ -132,48 +135,51 @@ export function ProductDetail() {
                       />
                     </div>
                   )}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className={!isKaos ? "col-span-2" : ""}>
-                      <label className="block text-[0.65rem] font-medium text-mpl-text-dim mb-1.5 uppercase tracking-wider">Ukuran</label>
-                      <select
-                        className="block w-full px-3 py-2 border border-mpl-border rounded bg-[#000] text-mpl-text text-[0.8rem] focus:outline-none focus:border-mpl-accent"
-                        value={formData.size}
-                        onChange={(e) => setFormData({ ...formData, size: e.target.value })}
-                      >
-                        {sizeOptions.map(opt => (
-                          <option key={opt.label} value={opt.label}>
-                            {opt.label} {opt.surcharge > 0 ? `(+Rp${opt.surcharge / 1000}k)` : ""}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    {isKaos && (
-                      <div>
-                        <label className="block text-[0.65rem] font-medium text-mpl-text-dim mb-1.5 uppercase tracking-wider">Model</label>
+                  {(isKaos || isPDH) && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className={!isKaos ? "col-span-2" : ""}>
+                        <label className="block text-[0.65rem] font-medium text-mpl-text-dim mb-1.5 uppercase tracking-wider">Ukuran</label>
                         <select
                           className="block w-full px-3 py-2 border border-mpl-border rounded bg-[#000] text-mpl-text text-[0.8rem] focus:outline-none focus:border-mpl-accent"
-                          value={formData.sleeveType}
-                          onChange={(e) => setFormData({ ...formData, sleeveType: e.target.value })}
+                          value={formData.size}
+                          onChange={(e) => setFormData({ ...formData, size: e.target.value })}
                         >
-                          {sleeveOptions.map(opt => (
+                          {sizeOptions.map(opt => (
                             <option key={opt.label} value={opt.label}>
                               {opt.label} {opt.surcharge > 0 ? `(+Rp${opt.surcharge / 1000}k)` : ""}
                             </option>
                           ))}
                         </select>
                       </div>
-                    )}
-                  </div>
-                  {isKaos && (
+                      {isKaos && (
+                        <div>
+                          <label className="block text-[0.65rem] font-medium text-mpl-text-dim mb-1.5 uppercase tracking-wider">Model</label>
+                          <select
+                            className="block w-full px-3 py-2 border border-mpl-border rounded bg-[#000] text-mpl-text text-[0.8rem] focus:outline-none focus:border-mpl-accent"
+                            value={formData.sleeveType}
+                            onChange={(e) => setFormData({ ...formData, sleeveType: e.target.value })}
+                          >
+                            {sleeveOptions.map(opt => (
+                              <option key={opt.label} value={opt.label}>
+                                {opt.label} {opt.surcharge > 0 ? `(+Rp${opt.surcharge / 1000}k)` : ""}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {hasColorOption && (
                     <div>
                       <label className="block text-[0.65rem] font-medium text-mpl-text-dim mb-1.5 uppercase tracking-wider">Warna</label>
                       <select
                         className="block w-full px-3 py-2 border border-mpl-border rounded bg-[#000] text-mpl-text text-[0.8rem] focus:outline-none focus:border-mpl-accent"
-                        value={formData.color}
+                        value={colorOptions.includes(formData.color) ? formData.color : colorOptions[0]}
                         onChange={(e) => setFormData({ ...formData, color: e.target.value })}
                       >
-                        <option value="Hitam">Hitam</option>
-                        <option value="Putih">Putih</option>
+                        {colorOptions.map(c => (
+                          <option key={c} value={c}>{c}</option>
+                        ))}
                       </select>
                     </div>
                   )}
