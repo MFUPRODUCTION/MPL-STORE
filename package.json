@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
+    "@netlify/blobs": "^8.1.0",
+    "@netlify/functions": "^2.8.2",
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
     "clsx": "^2.1.1",
