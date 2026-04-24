@@ -6,17 +6,29 @@ export function AdminLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Simple mock authentication for prototype
-    if (username === "admin" && password === "admin123") {
-      localStorage.setItem("adminToken", "admin-secret-token");
+    setError("");
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.token) {
+        throw new Error(data.error || "Username atau password salah");
+      }
+      localStorage.setItem("adminToken", data.token);
       navigate("/admin/dashboard");
-    } else {
-      setError("Username atau password salah");
+    } catch (err: any) {
+      setError(err.message || "Username atau password salah");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -77,9 +89,10 @@ export function AdminLogin() {
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full flex justify-center py-2.5 px-4 rounded text-[0.85rem] font-semibold text-white bg-mpl-accent hover:bg-[#cc0029] focus:outline-none transition-colors"
+                disabled={isLoading}
+                className="w-full flex justify-center py-2.5 px-4 rounded text-[0.85rem] font-semibold text-white bg-mpl-accent hover:bg-[#cc0029] focus:outline-none transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Sign in
+                {isLoading ? "Signing in..." : "Sign in"}
               </button>
             </div>
           </form>
